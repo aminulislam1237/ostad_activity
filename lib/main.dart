@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
               ),
               SizedBox(height: 20),
               Text(
-                'Welcome to ',
+                'not welcome',
                 style: TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.normal,
