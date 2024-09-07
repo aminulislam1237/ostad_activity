@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
-class ProductPage extends StatelessWidget {
+class ProductPage extends StatefulWidget {
+  @override
+  _ProductPageState createState() => _ProductPageState();
+}
+
+class _ProductPageState extends State<ProductPage> {
   final List<Product> products = [
-    Product(name: "Pullover", color: "Black", size: "L", price: 51.0),
-    Product(name: "T-Shirt", color: "Gray", size: "L", price: 30.0),
-    Product(name: "Sport Dress", color: "Black", size: "M", price: 43.0),
+    Product(name: "Pullover", color: "Black", size: "L", price: 51.0, quantity: 1),
+    Product(name: "T-Shirt", color: "Gray", size: "L", price: 30.0, quantity: 1),
+    Product(name: "Sport Dress", color: "Black", size: "M", price: 43.0, quantity: 1),
   ];
 
   @override
   Widget build(BuildContext context) {
-    double totalAmount = products.fold(0, (sum, item) => sum + item.price);
+    double totalAmount = products.fold(0, (sum, item) => sum + (item.price * item.quantity));
 
     return Scaffold(
       appBar: AppBar(
@@ -51,6 +56,35 @@ class ProductPage extends StatelessWidget {
                           Text('Size: ${product.size}', style: TextStyle(fontSize: 18)),
                           SizedBox(height: 8),
                           Text('\$${product.price}', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.green)),
+                          SizedBox(height: 8),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Quantity: ${product.quantity}', style: TextStyle(fontSize: 18)),
+                              Row(
+                                children: [
+                                  IconButton(
+                                    icon: Icon(Icons.remove),
+                                    onPressed: () {
+                                      setState(() {
+                                        if (product.quantity > 1) {
+                                          product.quantity--;
+                                        }
+                                      });
+                                    },
+                                  ),
+                                  IconButton(
+                                    icon: Icon(Icons.add),
+                                    onPressed: () {
+                                      setState(() {
+                                        product.quantity++;
+                                      });
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                     ),
@@ -66,7 +100,7 @@ class ProductPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  'Total Amount : \$${totalAmount.toStringAsFixed(2)}',
+                  'Total: \$${totalAmount.toStringAsFixed(2)}',
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center,
                 ),
@@ -98,6 +132,7 @@ class Product {
   final String color;
   final String size;
   final double price;
+  int quantity;
 
-  Product({required this.name, required this.color, required this.size, required this.price});
+  Product({required this.name, required this.color, required this.size, required this.price, required this.quantity});
 }
