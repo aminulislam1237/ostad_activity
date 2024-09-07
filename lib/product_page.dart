@@ -1,63 +1,103 @@
 import 'package:flutter/material.dart';
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context, dynamic Co1lors) {
-    return MaterialApp(
-      title: 'Product Page',
-      theme: ThemeData(
-        primarySwatch: Co1lors.blue,
-      ),
-      home: ProductPage(),
-    );
-  }
-}
-
 class ProductPage extends StatelessWidget {
-  final String productName = "Pullover";
-  final String color = "Black";
-  final String size = "L";
-  final double price = 51.0;
+  final List<Product> products = [
+    Product(name: "Pullover", color: "Black", size: "L", price: 51.0),
+    Product(name: "T-Shirt", color: "Gray", size: "L", price: 30.0),
+    Product(name: "Sport Dress", color: "Black", size: "M", price: 43.0),
+  ];
 
   @override
   Widget build(BuildContext context) {
+    double totalAmount = products.fold(0, (sum, item) => sum + item.price);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Product Page'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Product Image Placeholder
-            Container(
-              height: 200,
-              color: Colors.grey[300],
-              child: Center(child: Text('Product Image', style: TextStyle(fontSize: 20))),
-            ),
-            SizedBox(height: 16),
-            Text(
-              productName,
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 8),
-            Text('Color: $color', style: TextStyle(fontSize: 18)),
-            Text('Size: $size', style: TextStyle(fontSize: 18)),
-            SizedBox(height: 16),
-            Text('\$$price', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.green)),
-            SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                // Add to cart action
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('$productName added to cart!')),
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              itemCount: products.length,
+              itemBuilder: (context, index) {
+                final product = products[index];
+                return Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Card(
+                    elevation: 4,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Product Image Placeholder
+                          Container(
+                            height: 150,
+                            color: Colors.grey[300],
+                            child: Center(
+                              child: Text(
+                                product.name,
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 8),
+                          Text(
+                            product.name,
+                            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(height: 8),
+                          Text('Color: ${product.color}', style: TextStyle(fontSize: 18)),
+                          Text('Size: ${product.size}', style: TextStyle(fontSize: 18)),
+                          SizedBox(height: 8),
+                          Text('\$${product.price}', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.green)),
+                        ],
+                      ),
+                    ),
+                  ),
                 );
               },
-              child: Text('Add to Cart'),
             ),
-          ],
-        ),
+          ),
+          // Total Amount and Check Out Button
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  'Total Amount : \$${totalAmount.toStringAsFixed(2)}',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 16),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.orange, // Set button color to orange
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                  ),
+                  onPressed: () {
+                    // Check out action
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Checking out for \$${totalAmount.toStringAsFixed(2)}!')),
+                    );
+                  },
+                  child: Text('Check Out'),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
+}
+
+class Product {
+  final String name;
+  final String color;
+  final String size;
+  final double price;
+
+  Product({required this.name, required this.color, required this.size, required this.price});
 }
