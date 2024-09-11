@@ -6,9 +6,9 @@ class ProductPage extends StatefulWidget {
 
 class _ProductPageState extends State<ProductPage> {
   final List<Product> products = [
-    Product(name: "Pullover", color: "Black", size: "L", price: 51.0, quantity: 1),
-    Product(name: "T-Shirt", color: "Gray", size: "L", price: 30.0, quantity: 1),
-    Product(name: "Sport Dress", color: "Black", size: "M", price: 43.0, quantity: 1),
+    Product(name: "Pullover", color: "Black", size: "L", price: 51.0, quantity: 0),
+    Product(name: "T-Shirt", color: "Gray", size: "L", price: 30.0, quantity: 0),
+    Product(name: "Sport Dress", color: "Black", size: "M", price: 43.0, quantity: 0),
   ];
 
   @override
@@ -19,7 +19,8 @@ class _ProductPageState extends State<ProductPage> {
       appBar: AppBar(
         title: Text('Product Page'),
       ),
-      body: Column(
+      body:
+      Column(
         children: [
           Expanded(
             child: ListView.builder(
@@ -27,26 +28,26 @@ class _ProductPageState extends State<ProductPage> {
               itemBuilder: (context, index) {
                 final product = products[index];
                 return Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Card(
-                    elevation: 4,
+                    elevation: 2,
                     child: Padding(
-                      padding: const EdgeInsets.all(16.0),
+                      padding: const EdgeInsets.all(8.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // Product Image Placeholder
+                          Image.asset('assets/image/shirt.jpg'),
                           Container(
-                            height: 150,
+                            height: 50,
                             color: Colors.grey[300],
                             child: Center(
                               child: Text(
                                 product.name,
-                                style: TextStyle(fontSize: 20),
+                                style: TextStyle(fontSize: 15),
                               ),
                             ),
                           ),
-                          SizedBox(height: 8),
+                          SizedBox(height: 2),
                           Text(
                             product.name,
                             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
@@ -95,20 +96,20 @@ class _ProductPageState extends State<ProductPage> {
           ),
           // Total Amount and Check Out Button
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(10.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  'Total: \$${totalAmount.toStringAsFixed(2)}',
+                  'Total Ammount: \$${totalAmount.toStringAsFixed(2)}',
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(height: 16),
+                SizedBox(height: 10),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.orange, // Set button color to orange
-                    padding: EdgeInsets.symmetric(vertical: 16),
+                    padding: EdgeInsets.symmetric(vertical: 10),
                   ),
                   onPressed: () {
                     // Check out action
