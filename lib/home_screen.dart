@@ -9,7 +9,7 @@ class homescreen extends StatefulWidget {
 
 class _homescreenState extends State<homescreen> {
   final TextEditingController _glassNoTEController =TextEditingController(
-    text: '1'
+    text: '0'
   );
   @override
   Widget build(BuildContext context) {
